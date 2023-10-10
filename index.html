@@ -15,6 +15,11 @@
     <script>
         tailwind.config = {
           //Tailwind configuration here
+            theme: {
+                container: {
+                    center: true,
+                },
+            },
         }
     </script>
     <!-- Link to CSS file -->
@@ -22,16 +27,34 @@
 </head>
 
 <body>
-    <header>
+    <header class="text-center py-4">
         <h1>AId</h1>
         <p>AI Content Detection Tool</p>
     </header>
 
     <main>
-        <div id="search-container">
+        <div class="container px-4">
             <h2>Search</h2>
-            <input class="search-bar" placeholder="Enter text here"/>
-            <button class="search-submit" onclick="">🔎</button>
+            <fieldset>
+                <legend>Select a search type:</legend>
+              
+                <div>
+                  <input type="radio" id="search-type-links" name="search-type" value="links" checked />
+                  <label for="links">Article Links</label>
+                </div>
+              
+                <div>
+                  <input type="radio" id="search-type-ai" name="search-type" value="ai" />
+                  <label for="ai">AI Evaluation</label>
+                </div>
+
+                <input class="search-bar" placeholder="Enter text here"/>
+                <button class="search-submit" onclick="handleSearch()">🔎</button>
+            </fieldset>
+        </div>
+
+        <div id="search-results-container">
+
         </div>
         
     </main>
