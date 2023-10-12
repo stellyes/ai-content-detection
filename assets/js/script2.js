@@ -63,11 +63,9 @@ function recallHistory(historyArray, storage) {
 }
 
 //Renders the history list on the page
-function renderHistory(historyArray, storage) {
-  var storageItem;
+function renderHistory(historyArray) {
   var historyEntry;
   for (var i = 0; i < historyArray.length; i++) {
-    storageItem = storage + ' ' + i;
     historyEntry  = document.createElement("li");
     historyEntry.innerHTML = historyArray[i].toString();
     historyContainer.appendChild(historyEntry);
@@ -76,7 +74,7 @@ function renderHistory(historyArray, storage) {
 
 recallHistory(searchHistoryList, "link-history");
 recallHistory(searchHistoryAi, "ai-history");
-renderHistory(searchHistoryList, "link-history");
+renderHistory(searchHistoryList);
     
 getNews("United States");
 
