@@ -11,9 +11,8 @@ var searchHistoryAi = [];
 var searchHistoryList = [];
 var searchHistoryAi = [];
 
-const searchBar = document.querySelector(".search-bar");
 const textSearchResult = document.querySelector("#ai-result");
-const likelihoodResult = document.querySelector("#likelihood");
+const percentResult = document.querySelector("#ai-percent");
 
 // Calls for news articles based on search query, page
 // is default = 1 if not specified in function call
@@ -94,18 +93,8 @@ function checkFullText(input) {
 
         let parsedData = handleTextResults(data);
 
-        console.log(parsedData);
-
-        let results = {
-          view: function () {
-            return m("div", { id: "search-results-container" }, [
-              m("h2", { id: "ai-result" }, `${parsedData.result}`),
-              m("p", { id: "likelihood" }, `${parsedData.percent}`),
-            ]);
-          },
-        };
-
-        m.render(results);
+        m.render(textSearchResult, parsedData.result);
+        m.render(percentResult, parsedData.percent);
       } catch {
         console.log("it failed");
       }
@@ -114,7 +103,7 @@ function checkFullText(input) {
 
 function handleSearch() {
   if (radioAi.checked) {
-    let query = searchBar.value;
+    let query = searchBox.value;
     addHistory(searchHistoryAi, "ai-history");
     checkFullText(query);
   } else if (radioLinks.checked) {
@@ -156,8 +145,6 @@ function recallHistory(historyArray, storage) {
 
 recallHistory(searchHistoryList, "link-history");
 recallHistory(searchHistoryAi, "ai-history");
-console.log(searchHistoryList);
-console.log(searchHistoryAi);
 
 // Example call with JUST search parameter
 //getNews("dogs");
