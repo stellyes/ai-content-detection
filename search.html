@@ -3,30 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+          //Tailwind configuration here
+            theme: {
+                container: {
+                    center: true,
+                },
+            },
+        }
+    </script> -->
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/>
+    <link rel="stylesheet" type="text/css" href="./assets/css/style.css"/>
     <title>Search Results</title>
 </head>
-<body>
-    <div id="search-container">
-        <input type="text" id="search-input" placeholder="Scan text here">
-        <button>Check</button>
-        <div id="history-container">
-            <ul id="search-history" style="list-style: none;">
-                <li<a href=""></a>History</li>
-                <li<a href=""></a>History</li>
-                <li<a href=""></a>HIstory</li>
-            </ul>
+<body class="w3-light-blue">
+   <header class="w3-panel w3-blue-gray w3-margin" style="height: 40px;"></header>
+    <div class="w3-cell-row w3-padding w3-container w3-margin">
+        <div class="w3-col m4 13">
+            <div class="w3-display-container w3-gray w3-round w3-border w3-border-black w3-margin-right" style="height: 110px;">
+                <!-- could use JS to make a key-down for this input field? -->
+                <div class="w3-display-middle">
+                <input class="w3-hover-border-red w3-center w3-light-gray w3-round w3-margin" type="text" 
+                placeholder="Scan text here" style="height: 65px; width: 200px;">
+                </div>
+            </div>
+            <div>
+                <ul class="w3-ul w3-padding-small">
+                    <li><h3>Search History</h3></li>
+                    <li><a href=""></a>History</li>
+                    <li><a href=""></a>History</li>
+                    <li><a href=""></a>HIstory</li>
+                </ul>
+
+            </div>
 
         </div>
-
-    </div>
-    <div id="results-container">Results
-        <ul id="results-list" style="list-style: none;">
-            <li><a href=""></a>results</li>
-            <li><a href=""></a>results</li>
-            <li><a href=""></a>results</li>
-        </ul>
-    </div>
-    
+        <div class="w3-container w3-col m8 19 w3-leftbar w3-padding">
+            <ul class="w3-ul w3-padding-small">
+                <li class="w3-center"><h2>Results</h2></li>
+                <li><a href=""></a>results</li>
+                <li><a href=""></a>results</li>
+                <li><a href=""></a>results</li>
+                <li><a href=""></a>results</li>
+                <li><a href=""></a>results</li>
+                <li><a href=""></a>results</li>
+                <li><a href=""></a>results</li>
+                <li><a href=""></a>results</li>
+            </ul>
+        </div>
+   </div> 
 </body>
+<script src="./assets/js/script.js"></script>
 </html>
