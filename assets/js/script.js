@@ -1,6 +1,13 @@
 const newsAPIkey = "012eed9660f8495dadcabb4c8bd85ca7";
 const textAPIkey = "da6d75ca4emsh6141adc1de07170p15d12ajsn08a3f957a221";
 
+const radioLinks = document.getElementById("search-type-links");
+const radioAi = document.getElementById("search-type-ai");
+const searchBox = document.getElementById("search-bar");
+
+var searchHistoryList = [];
+var searchHistoryAi = [];
+
 // const articlesView = $("#to-be-determined");
 // const homepageResults = $("#search-results-container");
 
@@ -66,7 +73,52 @@ function checkFullText(input) {
     });
 }
 
-function handleSearch() {}
+function handleSearch() {
+
+  // if (radioLinks.checked) {
+  //   addHistory(searchHistoryList, "link-history");
+
+  // } else if (radioAi.checked) {
+  //   addHistory(searchHistoryAi, "ai-history");
+
+  // }
+}
+
+//Adds a new searched item to the search history
+function addHistory(historyArray, storage) {
+  var searchedContent = searchBox.value;
+
+  if (historyArray.length >= 10) {
+    historyArray.splice(historyArray.length - 1, 1);
+  } 
+  historyArray.unshift(searchedContent);
+  updateHistory(historyArray, storage);
+}
+
+//Updates storage from history array
+function updateHistory(historyArray, storage) {
+  var storageItem;
+  for (var i = 0; i < historyArray.length; i++) {
+    storageItem = storage + ' ' + i;
+    if (historyArray[i] != null) {
+      localStorage.setItem(storageItem, historyArray[i]);
+    }
+  }
+}
+
+//Updates history array from storage
+function recallHistory(historyArray, storage) {
+  var storageItem;
+  for (var i = 0; i < 10; i++) {
+    storageItem = storage + ' ' + i;
+    historyArray[i] = localStorage.getItem(storageItem);
+  }
+}
+
+recallHistory(searchHistoryList, "link-history");
+recallHistory(searchHistoryAi, "ai-history");
+console.log(searchHistoryList);
+console.log(searchHistoryAi);
 
 // Example call with JUST search parameter
 // getNews("cats");
