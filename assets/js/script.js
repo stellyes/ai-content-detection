@@ -1,18 +1,14 @@
 const newsAPIkey = "012eed9660f8495dadcabb4c8bd85ca7";
 const textAPIkey = "da6d75ca4emsh6141adc1de07170p15d12ajsn08a3f957a221";
 
-const radioLinks = document.getElementById("search-type-links");
-const radioAi = document.getElementById("search-type-ai");
-const searchBox = document.getElementById("search-bar");
-
-var searchHistoryList = [];
-var searchHistoryAi = [];
-
-var searchHistoryList = [];
-var searchHistoryAi = [];
-
+const radioLinks = document.querySelector("#search-type-links");
+const radioAi = document.querySelector("#search-type-ai");
+const searchBox = document.querySelector("#search-bar");
 const textSearchResult = document.querySelector("#ai-result");
 const percentResult = document.querySelector("#ai-percent");
+
+var searchHistoryList = [];
+var searchHistoryAi = [];
 
 // Calls for news articles based on search query, page
 // is default = 1 if not specified in function call
