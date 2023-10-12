@@ -1,23 +1,21 @@
-// const newsAPIkey = "012eed9660f8495dadcabb4c8bd85ca7";
 const textAPIkey = "da6d75ca4emsh6141adc1de07170p15d12ajsn08a3f957a221";
-const newsAPIkey = "4ff7a804afc85531b4d7c3a6916c8670"
+const newsAPIkey = "pub_310941d0b0fa18d49abbe048e6b4f4d748fbe"
 
 
 
 function getNews(query) {
-    // Replaces spaces in search query with plus
-    // symbol, as stated the documentatiton
-    // query = query;
-    // let apiCall = `https://newsapi.org/v2/everything?q=${query}&pageSize=8&page${page}&apiKey=${newsAPIkey}`;
-         apiCall = `https://mediastack.com/v1/news?access_key = 4ff7a804afc85531b4d7c3a6916c8670 & keywords = ${query} & sources = en`;
+         apiCall = `https://newsdata.io/api/1/news?apikey=pub_310941d0b0fa18d49abbe048e6b4f4d748fbe&q=${query}&size=2`;
     fetch(apiCall)
       .then(function (response) {
+        console.log(response);
         return response.json();
-      })
+      }) 
       .then(function (data) {
-        if (data.status == "ok") {
-          // Get array of articles from data
-          let articles = data.articles;
+        console.log(data);
+        if (data.status == "success") {
+            console.log(data)
+        //   Get array of articles from data
+          let articles = data.results;
           // Iterate over articles and append to webpage
           for (let i = 0; i < articles.length; i++) {
             fillSearchResults(articles[i]);
@@ -25,22 +23,20 @@ function getNews(query) {
         } else {
           console.log(">> API Call to newsapi.org failed");
         }
+      })
+      .catch(function(error) {
+        console.error('Error fetching data:', error);
       });
   }
   
   // Generates content for webpage
   function fillSearchResults(result) {
-    // articlesView is placeholder for page element
-    // yet to be created
-    console.log(result);
-    //articlesView.addElement(result);
+    let searchResultsElement = document.getElementById('search-results');
+    let listItem = document.createElement('li')
     let link = document.createElement('a');
-    link.href = results.url;
-    document.getElementById('search-results').appendChild(link);
-    }
-
-  getNews("United States");
-
-//   var root = document.body
-
-//   m.render(root, "hello world")
+        link.href = result.link;
+        link.textContent = result.title;
+        listItem.appendChild(link);
+        searchResultsElement.appendChild(listItem); 
+        }
+  getNews("moon");
