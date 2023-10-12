@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8"/>
+  <head>
+    <meta charset="UTF-8" />
     <title>AId</title>
     <!-- Link to jQuery -->
     <script
@@ -11,45 +10,60 @@
       crossorigin="anonymous"
     ></script>
     <!-- Link to W3.CSS -->
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
     <!-- Link to CSS file -->
-    <link rel="stylesheet" type="text/css" href="./assets/css/style.css"/>
-</head>
+    <link rel="stylesheet" type="text/css" href="./assets/css/style.css" />
+  </head>
 
-<body>
+  <body>
     <header class="w3-container w3-center w3-green">
-        <h1><b>AId</b></h1>
-        <p>AI Content Detection Tool</p>
+      <h1><b>AId</b></h1>
+      <p>AI Content Detection Tool</p>
     </header>
 
-    <main class="w3-container  w3-margin" style="height:300px;">
-        <div class="w3-display-middle w3-padding w3-red w3-round-large" style="width:500px;">
-            <h2>Search</h2>
-            <fieldset>
-                <legend>Select a search type:</legend>
-              
-                <div>
-                  <input type="radio" id="search-type-links" name="search-type" value="links" checked />
-                  <label for="links">Article Links</label>
-                </div>
-              
-                <div>
-                  <input type="radio" id="search-type-ai" name="search-type" value="ai" />
-                  <label for="ai">AI Evaluation</label>
-                </div>
+    <main class="w3-container w3-margin" style="height: 300px">
+      <div
+        class="w3-display-middle w3-padding w3-red w3-round-large"
+        style="width: 500px"
+      >
+        <h2>Search</h2>
+        <fieldset>
+          <legend>Select a search type:</legend>
 
-                <input id="search-bar" placeholder="Enter text here"/>
-                <button class="search-submit" onclick="handleSearch()">🔎</button>
-            </fieldset>
-        </div>
+          <div>
+            <input
+              type="radio"
+              id="search-type-links"
+              name="search-type"
+              value="links"
+              checked
+            />
+            <label for="links">Article Links</label>
+          </div>
 
-        <div id="search-results-container">
+          <div>
+            <input
+              type="radio"
+              id="search-type-ai"
+              name="search-type"
+              value="ai"
+            />
+            <label for="ai">AI Evaluation</label>
+          </div>
 
-        </div>
-        
+          <input id="search-bar" placeholder="Enter text here" />
+          <button class="search-submit" onclick="handleSearch()">🔎</button>
+        </fieldset>
+      </div>
+
+      <div id="search-results-container">
+        <h2 id="ai-result"></h2>
+        <p id="ai-percent"></p>
+      </div>
     </main>
 
     <!-- Link to JavaScript file -->
     <script src="./assets/js/script.js"></script>
-</body>
+    <script src="https://unpkg.com/mithril/mithril.js"></script>
+  </body>
 </html>
