@@ -1,7 +1,10 @@
 // const newsAPIkey = "012eed9660f8495dadcabb4c8bd85ca7";
 const textAPIkey = "da6d75ca4emsh6141adc1de07170p15d12ajsn08a3f957a221";
 const newsAPIkey = "4ff7a804afc85531b4d7c3a6916c8670"
+const historyContainer = document.getElementById('history-list');
 
+var searchHistoryList = [];
+var searchHistoryAi = [];
 
 
 function getNews(query) {
@@ -28,18 +31,54 @@ function getNews(query) {
       });
   }
   
-  // Generates content for webpage
-  function fillSearchResults(result) {
-    // articlesView is placeholder for page element
-    // yet to be created
-    console.log(result);
-    //articlesView.addElement(result);
-    let link = document.createElement('a');
-    link.href = results.url;
-    document.getElementById('search-results').appendChild(link);
-    }
+// Generates content for webpage
+function fillSearchResults(result) {
+  // articlesView is placeholder for page element
+  // yet to be created
+  console.log(result);
+  //articlesView.addElement(result);
+  let link = document.createElement('a');
+  link.href = results.url;
+  document.getElementById('search-results').appendChild(link);
+}
 
-  getNews("United States");
+//Updates storage from history array
+function updateHistory(historyArray, storage) {
+  var storageItem;
+  for (var i = 0; i < historyArray.length; i++) {
+    storageItem = storage + ' ' + i;
+    if (historyArray[i] != null) {
+      localStorage.setItem(storageItem, historyArray[i]);
+    }
+  }
+}
+
+//Updates history array from storage
+function recallHistory(historyArray, storage) {
+  var storageItem;
+  for (var i = 0; i < 10; i++) {
+    storageItem = storage + ' ' + i;
+    historyArray[i] = localStorage.getItem(storageItem);
+  }
+}
+
+//Renders the history list on the page
+function renderHistory(historyArray, storage) {
+  var storageItem;
+  var historyEntry;
+  for (var i = 0; i < historyArray.length; i++) {
+    storageItem = storage + ' ' + i;
+    historyEntry  = document.createElement("li");
+    historyEntry.innerHTML = historyArray[i].toString();
+    historyContainer.appendChild(historyEntry);
+  }
+}
+
+recallHistory(searchHistoryList, "link-history");
+recallHistory(searchHistoryAi, "ai-history");
+renderHistory(searchHistoryList, "link-history");
+    
+getNews("United States");
 
 //   var root = document.body
 

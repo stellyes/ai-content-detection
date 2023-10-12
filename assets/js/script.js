@@ -75,13 +75,13 @@ function checkFullText(input) {
 
 function handleSearch() {
 
-  // if (radioLinks.checked) {
-  //   addHistory(searchHistoryList, "link-history");
+  if (radioLinks.checked) {
+    addHistory(searchHistoryList, "link-history");
 
-  // } else if (radioAi.checked) {
-  //   addHistory(searchHistoryAi, "ai-history");
+  } else if (radioAi.checked) {
+    addHistory(searchHistoryAi, "ai-history");
 
-  // }
+  }
 }
 
 //Adds a new searched item to the search history
