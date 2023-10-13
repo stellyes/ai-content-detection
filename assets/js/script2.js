@@ -1,6 +1,7 @@
 const textAPIkey = "da6d75ca4emsh6141adc1de07170p15d12ajsn08a3f957a221";
 const newsAPIkey = "pub_310941d0b0fa18d49abbe048e6b4f4d748fbe"
 const historyContainer = document.getElementById('history-list');
+const searchBox = document.getElementById('search-bar');
 
 var searchHistoryList = [];
 var searchHistoryAi = [];
@@ -44,6 +45,24 @@ function getNews(query) {
         }
   getNews("moon");
 
+function handleSearch() {
+  if (searchBox.value) {
+    addHistory(searchHistoryList, "link-history");
+    renderHistory(searchHistoryList);
+  }
+}
+
+//Adds a new searched item to the search history
+function addHistory(historyArray, storage) {
+  var searchedContent = searchBox.value;
+
+  if (historyArray.length >= 10) {
+    historyArray.splice(historyArray.length - 1, 1);
+  }
+  historyArray.unshift(searchedContent);
+  updateHistory(historyArray, storage);
+}
+
 //Updates storage from history array
 function updateHistory(historyArray, storage) {
   var storageItem;
@@ -67,10 +86,21 @@ function recallHistory(historyArray, storage) {
 //Renders the history list on the page
 function renderHistory(historyArray) {
   var historyEntry;
-  for (var i = 0; i < historyArray.length; i++) {
+  
+  //Appneds the new search to the list
+  if (historyContainer.children.length > 1) {
     historyEntry  = document.createElement("li");
-    historyEntry.innerHTML = historyArray[i].toString();
+    historyEntry.innerHTML = historyArray[0].toString();
     historyContainer.appendChild(historyEntry);
+    historyContainer.insertBefore(historyEntry, historyContainer.children[1]);
+
+  //Initial page rendering
+  } else {
+    for (var i = 0; i < historyArray.length; i++) {
+      historyEntry  = document.createElement("li");
+      historyEntry.innerHTML = historyArray[i].toString();
+      historyContainer.appendChild(historyEntry);
+    }
   }
 }
 
