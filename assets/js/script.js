@@ -112,14 +112,15 @@ function handleSearch() {
 function addHistory(historyArray, storage) {
   var searchedContent = searchBox.value;
 
+  //If search entry has been searched, removes the old entry from history
   if (historyArray.includes(searchedContent)) {
     historyArray.splice(historyArray.indexOf(searchedContent), 1);
   } 
-  
+  //If history has more than 10 entries, removes the oldest entry
   else if (historyArray.length >= 10) {
     historyArray.splice(historyArray.length - 1, 1);
   }
-
+  //Enters the most recent entry to history
   historyArray.unshift(searchedContent);
   updateHistory(historyArray, storage);
 }

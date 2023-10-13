@@ -56,14 +56,15 @@ function handleSearch() {
 function addHistory(historyArray, storage) {
   var searchedContent = searchBox.value;
 
+  //If search entry has been searched, removes the old entry from history
   if (historyArray.includes(searchedContent)) {
     historyArray.splice(historyArray.indexOf(searchedContent), 1);
   } 
-  
+  //If history has more than 10 entries, removes the oldest entry
   else if (historyArray.length >= 10) {
     historyArray.splice(historyArray.length - 1, 1);
   }
-
+  //Enters the most recent entry to history
   historyArray.unshift(searchedContent);
   updateHistory(historyArray, storage);
 }
@@ -95,15 +96,7 @@ function renderHistory(historyArray) {
   if (historyArray[0] == undefined || historyArray[0] == null) {
     return;
   }
-
-  //Appneds the new search to the list
-  // if (historyContainer.children.length > 1) {
-  //   historyEntry  = document.createElement("li");
-  //   historyEntry.innerHTML = historyArray[0].toString();
-  //   historyContainer.appendChild(historyEntry);
-  //   historyContainer.insertBefore(historyEntry, historyContainer.children[1]);
-  // }
-
+  //Removes the old history list
   for (var i = 0; i < historyArray.length - 1; i++) {
     if (historyArray[i] == null || historyContainer.lastElementChild == null) {
       break;
@@ -111,16 +104,15 @@ function renderHistory(historyArray) {
     historyContainer.lastElementChild.remove();
     console.log('removed el');
   }
-
   //Initial page rendering
-    for (var i = 0; i < historyArray.length; i++) {
-      if (historyArray[i] == null) {
-        break;
-      }
-      historyEntry  = document.createElement("li");
-      historyEntry.innerHTML = historyArray[i].toString();
-      historyContainer.appendChild(historyEntry);
+  for (var i = 0; i < historyArray.length; i++) {
+    if (historyArray[i] == null) {
+      break;
     }
+    historyEntry  = document.createElement("li");
+    historyEntry.innerHTML = historyArray[i].toString();
+    historyContainer.appendChild(historyEntry);
+  }
 }
 
 recallHistory(searchHistoryList, "link-history");
