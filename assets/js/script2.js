@@ -43,10 +43,10 @@ function getNews(query) {
         listItem.appendChild(link);
         searchResultsElement.appendChild(listItem); 
         }
-  getNews("moon");
 
 function handleSearch() {
   if (searchBox.value) {
+    getNews(searchBox.value);
     addHistory(searchHistoryList, "link-history");
     renderHistory(searchHistoryList);
   }
@@ -56,9 +56,14 @@ function handleSearch() {
 function addHistory(historyArray, storage) {
   var searchedContent = searchBox.value;
 
-  if (historyArray.length >= 10) {
+  if (historyArray.includes(searchedContent)) {
+    historyArray.splice(historyArray.indexOf(searchedContent), 1);
+  } 
+  
+  else if (historyArray.length >= 10) {
     historyArray.splice(historyArray.length - 1, 1);
   }
+
   historyArray.unshift(searchedContent);
   updateHistory(historyArray, storage);
 }
@@ -86,25 +91,42 @@ function recallHistory(historyArray, storage) {
 //Renders the history list on the page
 function renderHistory(historyArray) {
   var historyEntry;
-  
+
+  if (historyArray[0] == undefined || historyArray[0] == null) {
+    return;
+  }
+
   //Appneds the new search to the list
-  if (historyContainer.children.length > 1) {
-    historyEntry  = document.createElement("li");
-    historyEntry.innerHTML = historyArray[0].toString();
-    historyContainer.appendChild(historyEntry);
-    historyContainer.insertBefore(historyEntry, historyContainer.children[1]);
+  // if (historyContainer.children.length > 1) {
+  //   historyEntry  = document.createElement("li");
+  //   historyEntry.innerHTML = historyArray[0].toString();
+  //   historyContainer.appendChild(historyEntry);
+  //   historyContainer.insertBefore(historyEntry, historyContainer.children[1]);
+  // }
+
+  for (var i = 0; i < historyArray.length - 1; i++) {
+    if (historyArray[i] == null || historyContainer.lastElementChild == null) {
+      break;
+    }
+    historyContainer.lastElementChild.remove();
+    console.log('removed el');
+  }
 
   //Initial page rendering
-  } else {
     for (var i = 0; i < historyArray.length; i++) {
+      if (historyArray[i] == null) {
+        break;
+      }
       historyEntry  = document.createElement("li");
       historyEntry.innerHTML = historyArray[i].toString();
       historyContainer.appendChild(historyEntry);
     }
-  }
 }
 
 recallHistory(searchHistoryList, "link-history");
 recallHistory(searchHistoryAi, "ai-history");
-renderHistory(searchHistoryList);
-    
+
+if (searchHistoryList[0] != undefined || searchHistoryList[0] != null) {
+  searchBox.value = searchHistoryList[0].toString();
+}
+handleSearch();

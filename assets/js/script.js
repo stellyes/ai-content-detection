@@ -104,7 +104,7 @@ function handleSearch() {
     checkFullText(query);
   } else if (radioLinks.checked) {
     addHistory(searchHistoryList, "link-history");
-    //Female radio button is checked
+    location.assign("./search.html");
   }
 }
 
@@ -112,9 +112,14 @@ function handleSearch() {
 function addHistory(historyArray, storage) {
   var searchedContent = searchBox.value;
 
-  if (historyArray.length >= 10) {
+  if (historyArray.includes(searchedContent)) {
+    historyArray.splice(historyArray.indexOf(searchedContent), 1);
+  } 
+  
+  else if (historyArray.length >= 10) {
     historyArray.splice(historyArray.length - 1, 1);
   }
+
   historyArray.unshift(searchedContent);
   updateHistory(historyArray, storage);
 }
