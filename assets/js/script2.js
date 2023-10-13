@@ -39,6 +39,7 @@ function getNews(query) {
     let listItem = document.createElement('li')
     let link = document.createElement('a');
         link.href = result.link;
+        link.target = '_blank';
         link.textContent = result.title;
         listItem.appendChild(link);
         searchResultsElement.appendChild(listItem); 
