@@ -21,11 +21,8 @@ function getNews(query, page = 1) {
   // symbol, as stated the documentatiton
   query = query.replace(" ", "+");
   let apiCall = `https://newsapi.org/v2/everything?q=${query}&pageSize=8&page${page}&apiKey=${newsAPIkey}`;
-  let apiOptions = {
-    Origin: "http://127.0.0.1/",
-  };
 
-  fetch(apiCall, apiOptions)
+  fetch(apiCall)
     .then(function (response) {
       return response.json();
     })
@@ -92,7 +89,7 @@ function checkFullText(input) {
         JSON.stringify(data); // no need to save, if this fails it's not JSON
 
         let parsedData = handleTextResults(data);
-
+        console.log(parsedData);
         m.render(textSearchResult, parsedData.result);
         m.render(percentResult, parsedData.percent);
       } catch {
