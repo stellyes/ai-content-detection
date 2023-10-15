@@ -1,41 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/>
-    <link rel="stylesheet" type="text/css" href="./assets/css/style.css"/>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+    <link rel="stylesheet" type="text/css" href="./assets/css/style.css" />
     <title>Search Results</title>
-</head>
-<script src="https://unpkg.com/mithril/mithril.js"></script>
-<body class="w3-light-blue">
-   <header class="w3-panel w3-blue-gray w3-margin" style="height: 40px;"></header>
-    <div class="w3-cell-row w3-padding w3-container w3-margin">
-        <div class="w3-col m4 13">
-            <div class="w3-display-container w3-gray w3-round w3-border w3-border-black w3-margin-right" style="height: 110px;">
-                <!-- could use JS to make a key-down for this input field? -->
-                <div class="w3-display-middle">
-                <input id= "search-bar" class="w3-hover-border-red w3-center w3-light-gray w3-round w3-margin" type="text" 
-                placeholder="Scan text here" style="height: 65px; width: 200px;">
-                <div class="w3-center">
-                <button class="w3-button w3-black w3-round w3-ripple" onclick="handleSearch()">Search</button>
-                </div>
-                </div>
-            </div>
+  </head>
+  <script src="https://unpkg.com/mithril/mithril.js"></script>
+  <body class="w3-container">
+    <div class="sidebar w3-col w3-margin w3-third">
+      <header
+        class="w3-panel w3-margin w3-round-xxlarge"
+        style="height: 90px; width: 94%"
+      >
+        <h1 class="title-card"><b>Content AId</b></h1>
+      </header>
+      <div class="w3-padding w3-red w3-round-large">
+        <fieldset>
+          <legend>Select a search type:</legend>
+          <div class="search-options m8">
             <div>
-                <ul class="w3-ul w3-padding-small" id="history-list">
-                    <li><h3>Search History</h3></li>
-                </ul>
-
+              <input
+                type="radio"
+                id="search-type-links"
+                name="search-type"
+                value="links"
+                checked
+              />
+              <label for="links">Article Links</label>
             </div>
 
-        </div>
-        <div class="w3-container w3-col m8 19 w3-leftbar w3-padding">
-            <ul id="search-results" class="w3-ul w3-padding-small">
-                <li class="w3-center"><h2>Results</h2></li>
-            </ul>
-        </div>
-   </div> 
-</body>
-<script src="./assets/js/script2.js"></script>
+            <div>
+              <input
+                type="radio"
+                id="search-type-ai"
+                name="search-type"
+                value="ai"
+              />
+              <label for="ai">AI Evaluation</label>
+            </div>
+          </div>
+          <div class="search-options">
+            <input id="search-bar" placeholder="Enter text here" />
+            <button class="search-submit" onclick="handleSearch()">🔎</button>
+          </div>
+        </fieldset>
+      </div>
+      <div class="w3-cell w3-container m4 history-sections">
+        <h3 id="history-title" class="w3-center">Search History</h3>
+        <ul id="history-list"></ul>
+      </div>
+      <div
+        class="w3-round-xlarge w3-padding w3-margin"
+        id="search-results-container"
+        style="width: 80%; text-align: center"
+      >
+        <h2 id="ai-result"></h2>
+        <p id="ai-percent"></p>
+      </div>
+    </div>
+    <div class="w3-round-xlarge w3-container w3-twothird w3-margin w3-leftbar">
+      <div class="w3-col">
+        <h2 class="results-title w3-center w3-margin-left">Results</h2>
+        <ul id="search-results-view" class="w3-ul w3-padding-small"></ul>
+      </div>
+    </div>
+  </body>
+  <script src="./assets/js/script2.js"></script>
 </html>
