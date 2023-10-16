@@ -4,6 +4,7 @@ const historyContainer = document.getElementById("history-list");
 const searchBox = document.getElementById("search-bar");
 const radioLinks = document.querySelector("#search-type-links");
 const radioAi = document.querySelector("#search-type-ai");
+const textResultContainer = document.querySelector("#search-results-container");
 const textSearchResult = document.querySelector("#ai-result");
 const percentResult = document.querySelector("#ai-percent");
 
@@ -12,18 +13,14 @@ var searchHistoryAi = [];
 
 function getNews(query) {
   m.request({
-    url: `https://newsdata.io/api/1/news?apikey=pub_310941d0b0fa18d49abbe048e6b4f4d748fbe&q=${query}&size=1`,
+    url: `https://newsdata.io/api/1/news?apikey=pub_310941d0b0fa18d49abbe048e6b4f4d748fbe&q=${query}&size=10`,
   })
     .then(function (data) {
       console.log(data);
       if (data.status == "success") {
         console.log(data);
         // Get array of articles from data
-        let articles = data.results;
-        // Iterate over articles and append to webpage
-        for (let i = 0; i < articles.length; i++) {
-          fillSearchResults(articles[i]);
-        }
+        fillSearchResults(data.results);
       }
     })
     .catch(function (error) {
@@ -71,33 +68,44 @@ function handleTextResults(data) {
     outcome = "Maybe AI";
   }
 
-  let percentage = `${Math.floor(probability)}%`;
+  let percentage = `Human likeness: ${Math.floor(probability)}%`;
 
   return { result: outcome, percent: percentage };
 }
 
 // Generates content for webpage
 function fillSearchResults(result) {
-  let searchResultsElement = document.getElementById("search-results-view");
-  // Creating link element through Mithral.js
-  let link = m("a", { href: result.link, target: "_blank" }, result.title);
-  // Creating list element
-  let listItem = m(
-    "li.w3-margin-left.w3-round-large",
-    { id: "search-result" },
-    [link]
-  );
+  let listArray = [];
+  for (let i = 0; i < result.length; i++) {
+    // Creating link element through Mithral.js
+    let link = m(
+      "a",
+      { href: result[i].link, target: "_blank" },
+      result[i].title
+    );
+    // Creating list element
+    let listItem = m(
+      "li.w3-margin-left.w3-round-large",
+      { id: "search-result" },
+      [link]
+    );
+    listArray[i] = listItem;
+  }
+
   // Append listItem to searchResultsElement
-  m.render(searchResultsElement, listItem);
+  let searchResultsElement = document.getElementById("search-results-view");
+  m.render(searchResultsElement, listArray);
 }
 
 function handleSearch() {
   if (radioAi.checked) {
+    textResultContainer.style.display = "";
     addHistory(searchHistoryAi, "ai-history");
     checkFullText(searchBox.value);
   } else if (radioLinks.checked) {
     getNews(searchBox.value);
     addHistory(searchHistoryList, "link-history");
+    recallHistory(searchHistoryList, "link-history");
     renderHistory(searchHistoryList);
   }
 }
@@ -161,13 +169,13 @@ function renderHistory(historyArray) {
     }
     //historyEntry = document.createElement("li");
     let historyText = historyArray[i].toString();
-    historyEntries[i] = m("li", historyText);
+    historyEntries[i] = m("li", { id: "search-history-item" }, historyText);
   }
   m.render(historyContainer, historyEntries);
 }
 
 recallHistory(searchHistoryList, "link-history");
-//recallHistory(searchHistoryAi, "ai-history");
+recallHistory(searchHistoryAi, "ai-history");
 renderHistory(searchHistoryList);
 
 if (searchHistoryList[0] != undefined || searchHistoryList[0] != null) {

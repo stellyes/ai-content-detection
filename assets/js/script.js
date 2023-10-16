@@ -19,7 +19,7 @@ function handleTextResults(data) {
     outcome = "Maybe AI";
   }
 
-  let percentage = `${Math.floor(probability)}%`;
+  let percentage = `Human likeness: ${Math.floor(probability)}%`;
 
   return { result: outcome, percent: percentage };
 }
@@ -55,6 +55,7 @@ function checkFullText(input) {
 
 function handleSearch() {
   if (radioAi.checked) {
+    textResultContainer.style.display = "";
     let query = searchBox.value;
     addHistory(searchHistoryAi, "ai-history");
     checkFullText(query);
