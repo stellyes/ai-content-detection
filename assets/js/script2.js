@@ -4,7 +4,6 @@ const historyContainer = document.getElementById("history-list");
 const searchBox = document.getElementById("search-bar");
 const radioLinks = document.querySelector("#search-type-links");
 const radioAi = document.querySelector("#search-type-ai");
-const textResultContainer = document.querySelector("#search-results-container");
 const textSearchResult = document.querySelector("#ai-result");
 const percentResult = document.querySelector("#ai-percent");
 

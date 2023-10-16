@@ -5,6 +5,7 @@ const radioAi = document.querySelector("#search-type-ai");
 const searchBox = document.querySelector("#search-bar");
 const textSearchResult = document.querySelector("#ai-result");
 const percentResult = document.querySelector("#ai-percent");
+const textResultContainer = document.querySelector("#search-results-container");
 
 var searchHistoryList = [];
 var searchHistoryAi = [];
