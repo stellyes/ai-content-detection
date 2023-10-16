@@ -2,6 +2,7 @@ const textAPIkey = "da6d75ca4emsh6141adc1de07170p15d12ajsn08a3f957a221";
 const newsAPIkey = "pub_310941d0b0fa18d49abbe048e6b4f4d748fbe";
 const historyContainer = document.getElementById("history-list");
 const searchBox = document.getElementById("search-bar");
+const searchEl = document.getElementById("search-history-item");
 const radioLinks = document.querySelector("#search-type-links");
 const radioAi = document.querySelector("#search-type-ai");
 const textResultContainer = document.querySelector("#search-results-container");
@@ -138,7 +139,7 @@ function updateHistory(historyArray, storage) {
   }
 }
 
-//Updates history array from storage
+//Updates history array from storageß
 function recallHistory(historyArray, storage) {
   var storageItem;
   for (var i = 0; i < 5; i++) {
@@ -149,7 +150,7 @@ function recallHistory(historyArray, storage) {
 
 //Renders the history list on the page
 function renderHistory(historyArray) {
-  var historyEntries = [];
+  var historyEntry;
 
   if (historyArray[0] == undefined || historyArray[0] == null) {
     return;
@@ -167,11 +168,10 @@ function renderHistory(historyArray) {
     if (historyArray[i] == null) {
       break;
     }
-    //historyEntry = document.createElement("li");
-    let historyText = historyArray[i].toString();
-    historyEntries[i] = m("li", { id: "search-history-item" }, historyText);
+    historyEntry = document.createElement("li");
+    historyEntry.innerHTML = historyArray[i].toString();
+    historyContainer.appendChild(historyEntry);
   }
-  m.render(historyContainer, historyEntries);
 }
 
 recallHistory(searchHistoryList, "link-history");
