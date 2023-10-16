@@ -181,3 +181,5 @@ renderHistory(searchHistoryList);
 if (searchHistoryList[0] != undefined || searchHistoryList[0] != null) {
   searchBox.value = searchHistoryList[0].toString();
 }
+
+handleSearch();
