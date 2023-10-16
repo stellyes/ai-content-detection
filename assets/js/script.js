@@ -48,7 +48,7 @@ function fillSearchResults(result) {
 }
 
 function handleTextResults(data) {
-  let probability = parseFloat(data.real_probability).toPrecision(4) * 100;
+  let probability = parseFloat(data.real_probability) * 100;
   let outcome = "Definitely AI";
 
   if (probability > 60) {
@@ -57,7 +57,7 @@ function handleTextResults(data) {
     outcome = "Maybe AI";
   }
 
-  let percentage = `${probability}%`;
+  let percentage = `${Math.floor(probability)}%`;
 
   return { result: outcome, percent: percentage };
 }
@@ -115,7 +115,7 @@ function addHistory(historyArray, storage) {
   //If search entry has been searched, removes the old entry from history
   if (historyArray.includes(searchedContent)) {
     historyArray.splice(historyArray.indexOf(searchedContent), 1);
-  } 
+  }
   //If history has more than 10 entries, removes the oldest entry
   else if (historyArray.length >= 10) {
     historyArray.splice(historyArray.length - 1, 1);
