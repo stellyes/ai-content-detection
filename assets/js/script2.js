@@ -2,27 +2,25 @@ const textAPIkey = "da6d75ca4emsh6141adc1de07170p15d12ajsn08a3f957a221";
 const newsAPIkey = "pub_310941d0b0fa18d49abbe048e6b4f4d748fbe";
 const historyContainer = document.getElementById("history-list");
 const searchBox = document.getElementById("search-bar");
+const radioLinks = document.querySelector("#search-type-links");
+const radioAi = document.querySelector("#search-type-ai");
+const textResultContainer = document.querySelector("#search-results-container");
+const textSearchResult = document.querySelector("#ai-result");
+const percentResult = document.querySelector("#ai-percent");
 
 var searchHistoryList = [];
 var searchHistoryAi = [];
 
 function getNews(query) {
-  apiCall = `https://newsdata.io/api/1/news?apikey=pub_310941d0b0fa18d49abbe048e6b4f4d748fbe&q=${query}&size=8`;
-  fetch(apiCall)
-    .then(function (response) {
-      console.log(response);
-      return response.json();
-    })
+  m.request({
+    url: `https://newsdata.io/api/1/news?apikey=pub_310941d0b0fa18d49abbe048e6b4f4d748fbe&q=${query}&size=10`,
+  })
     .then(function (data) {
       console.log(data);
       if (data.status == "success") {
         console.log(data);
-        //   Get array of articles from data
-        let articles = data.results;
-        // Iterate over articles and append to webpage
-        for (let i = 0; i < articles.length; i++) {
-          fillSearchResults(articles[i]);
-        }
+        // Get array of articles from data
+        fillSearchResults(data.results);
       }
     })
     .catch(function (error) {
@@ -30,24 +28,84 @@ function getNews(query) {
     });
 }
 
+// Checks input text for AI likeness
+function checkFullText(input) {
+  let formattedInput = input.replace(" ", "%20");
+
+  m.request({
+    url: `https://ai-content-detector1.p.rapidapi.com/?text=${formattedInput}`,
+    headers: {
+      "X-RapidAPI-Key": textAPIkey,
+      "X-RapidAPI-Host": "ai-content-detector1.p.rapidapi.com",
+    },
+  }).then(function (data) {
+    // Function returns an HTML object if
+    // API call fails. We can tell the
+    // success of the call from its
+    // response type
+    try {
+      JSON.stringify(data); // no need to save, if this fails it's not JSON
+
+      let parsedData = handleTextResults(data);
+
+      m.render(textSearchResult, parsedData.result);
+      m.render(percentResult, parsedData.percent);
+    } catch {
+      m.render(textSearchResult, "ERROR");
+      m.render(percentResult, "Failed to read text");
+      console.log(">> Error occured when trying to evaluate user text");
+    }
+  });
+}
+
+function handleTextResults(data) {
+  let probability = parseFloat(data.real_probability) * 100;
+  let outcome = "Definitely AI";
+
+  if (probability > 60) {
+    outcome = "Likely not AI";
+  } else if (probability > 40) {
+    outcome = "Maybe AI";
+  }
+
+  let percentage = `Human likeness: ${Math.floor(probability)}%`;
+
+  return { result: outcome, percent: percentage };
+}
+
 // Generates content for webpage
 function fillSearchResults(result) {
+  let listArray = [];
+  for (let i = 0; i < result.length; i++) {
+    // Creating link element through Mithral.js
+    let link = m(
+      "a",
+      { href: result[i].link, target: "_blank" },
+      result[i].title
+    );
+    // Creating list element
+    let listItem = m(
+      "li.w3-margin-left.w3-round-large",
+      { id: "search-result" },
+      [link]
+    );
+    listArray[i] = listItem;
+  }
+
+  // Append listItem to searchResultsElement
   let searchResultsElement = document.getElementById("search-results-view");
-  let listItem = document.createElement("li");
-  let link = document.createElement("a");
-  link.href = result.link;
-  link.target = "_blank";
-  link.textContent = result.title;
-  listItem.appendChild(link);
-  listItem.setAttribute("id", "search-result");
-  listItem.setAttribute("class", "w3-margin-left w3-round-xlarge");
-  searchResultsElement.appendChild(listItem);
+  m.render(searchResultsElement, listArray);
 }
 
 function handleSearch() {
-  if (searchBox.value) {
+  if (radioAi.checked) {
+    textResultContainer.style.display = "";
+    addHistory(searchHistoryAi, "ai-history");
+    checkFullText(searchBox.value);
+  } else if (radioLinks.checked) {
     getNews(searchBox.value);
     addHistory(searchHistoryList, "link-history");
+    recallHistory(searchHistoryList, "link-history");
     renderHistory(searchHistoryList);
   }
 }
@@ -60,8 +118,8 @@ function addHistory(historyArray, storage) {
   if (historyArray.includes(searchedContent)) {
     historyArray.splice(historyArray.indexOf(searchedContent), 1);
   }
-  //If history has more than 10 entries, removes the oldest entry
-  else if (historyArray.length >= 10) {
+  //If history has more than 5 entries, removes the oldest entry
+  else if (historyArray.length >= 5) {
     historyArray.splice(historyArray.length - 1, 1);
   }
   //Enters the most recent entry to history
@@ -83,7 +141,7 @@ function updateHistory(historyArray, storage) {
 //Updates history array from storage
 function recallHistory(historyArray, storage) {
   var storageItem;
-  for (var i = 0; i < 10; i++) {
+  for (var i = 0; i < 5; i++) {
     storageItem = storage + " " + i;
     historyArray[i] = localStorage.getItem(storageItem);
   }
@@ -91,7 +149,7 @@ function recallHistory(historyArray, storage) {
 
 //Renders the history list on the page
 function renderHistory(historyArray) {
-  var historyEntry;
+  var historyEntries = [];
 
   if (historyArray[0] == undefined || historyArray[0] == null) {
     return;
@@ -109,16 +167,17 @@ function renderHistory(historyArray) {
     if (historyArray[i] == null) {
       break;
     }
-    historyEntry = document.createElement("li");
-    historyEntry.innerHTML = historyArray[i].toString();
-    historyContainer.appendChild(historyEntry);
+    //historyEntry = document.createElement("li");
+    let historyText = historyArray[i].toString();
+    historyEntries[i] = m("li", { id: "search-history-item" }, historyText);
   }
+  m.render(historyContainer, historyEntries);
 }
 
 recallHistory(searchHistoryList, "link-history");
 recallHistory(searchHistoryAi, "ai-history");
+renderHistory(searchHistoryList);
 
 if (searchHistoryList[0] != undefined || searchHistoryList[0] != null) {
   searchBox.value = searchHistoryList[0].toString();
 }
-handleSearch();
