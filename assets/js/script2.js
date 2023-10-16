@@ -7,7 +7,7 @@ var searchHistoryList = [];
 var searchHistoryAi = [];
 
 function getNews(query) {
-  apiCall = `https://newsdata.io/api/1/news?apikey=pub_310941d0b0fa18d49abbe048e6b4f4d748fbe&q=${query}&size=2`;
+  apiCall = `https://newsdata.io/api/1/news?apikey=pub_310941d0b0fa18d49abbe048e6b4f4d748fbe&q=${query}&size=8`;
   fetch(apiCall)
     .then(function (response) {
       console.log(response);
