@@ -15,6 +15,7 @@ html {
 
 body {
   display: flex;
+  justify-content: center;
   letter-spacing: 0.1rem;
   background: linear-gradient(var(--sand), 30%, var(--clay), 60%, var(--dirt));
 }
